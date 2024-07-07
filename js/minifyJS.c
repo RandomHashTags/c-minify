@@ -42,7 +42,7 @@ void minify_js(const char *string, const long length, char *result) {
                     case 'e':
                         is_const = false;
                         const char next = string[i+1];
-                        is_const = string[i-2] == 's' && string[i-3] == 'a' && string[i-4] == 'c' && (next == '0' || next == '1' || next == '2' || next == '3' || next == '4' || next == '5' || next == '6' || next == '7' || next == '8' || next == '9');
+                        is_const = (string[i-2] == 's' && string[i-3] == 'l' && string[i-4] == 'e') && next == 'i' && string[i+2] == 'f' || (string[i-2] == 's' && string[i-3] == 'a' && string[i-4] == 'c' && (next == '0' || next == '1' || next == '2' || next == '3' || next == '4' || next == '5' || next == '6' || next == '7' || next == '8' || next == '9'));
                         break;
                     default:
                         break;
