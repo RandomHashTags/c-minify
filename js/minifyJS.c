@@ -39,6 +39,11 @@ void minify_js(const char *string, const long length, char *result) {
                     case 'w':
                         is_const = string[i-2] == 'e' && string[i-3] == 'n';
                         break;
+                    case 'e':
+                        is_const = false;
+                        const char next = string[i+1];
+                        is_const = string[i-2] == 's' && string[i-3] == 'a' && string[i-4] == 'c' && (next == '0' || next == '1' || next == '2' || next == '3' || next == '4' || next == '5' || next == '6' || next == '7' || next == '8' || next == '9');
+                        break;
                     default:
                         break;
                 }
@@ -48,8 +53,10 @@ void minify_js(const char *string, const long length, char *result) {
                 keep = in_string || is_const;
                 break;
             case '/':
-                if (string[i+1] == '/') {
-                    is_comment = true;
+                is_comment = is_comment || string[i+1] == '/';
+                keep = in_string || !is_comment;
+                if (is_comment) {
+                    i += 1;
                 }
                 break;
             default:
