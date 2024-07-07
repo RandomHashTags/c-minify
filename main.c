@@ -6,11 +6,12 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "css/minifyCSS.c"
 
-int main(int argc, char *argv[]) {
-    FILE *file = fopen("/Users/randomhashtags/GitProjects/swift-league-scheduling/Public/css/defaults.css", "r");
+#include "css/minifyCSS.c"
+#include "js/minifyJS.c"
+
+void test_minify(const char *file_path, const bool css) {
+    FILE *file = fopen(file_path, "r");
     if (file) {
         fseek(file, 0L, SEEK_END);
         const long size = ftell(file);
@@ -22,7 +23,19 @@ int main(int argc, char *argv[]) {
         fclose(file);
 
         char minified[size + 1];
-        minify_css(string, size, minified);
+        if (css) {
+            minify_css(string, size, minified);
+        } else {
+            minify_js(string, size, minified);
+        }
         printf("%s\n", minified);
+    } else {
+        printf("No file for path: %s\n", file_path);
     }
+}
+
+int main(int argc, char *argv[]) {
+    //test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Public/css/defaults.css", true);
+    test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Public/js/scheduler.js", false);
+    return 0;
 }

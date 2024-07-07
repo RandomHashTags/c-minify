@@ -6,7 +6,6 @@
 //
 
 #include <stdbool.h>
-#include <ctype.h>
 
 void minify_css(const char *string, const long length, char *result) {
     long index = 0;
