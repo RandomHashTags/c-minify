@@ -35,7 +35,7 @@ void test_minify(const char *file_path, const bool css) {
 }
 
 int main(int argc, char *argv[]) {
-    //test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Public/css/defaults.css", true);
-    test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Resources/js/defaults.js", false);
+    test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Resources/css/scheduler.css", true);
+    //test_minify("/Users/randomhashtags/GitProjects/swift-league-scheduling/Resources/js/login.js", false);
     return 0;
 }

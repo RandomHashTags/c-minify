@@ -27,7 +27,7 @@ void minify_css(const char *string, const long length, char *result) {
             case '/':
                 if (string[i+1] == '*') {
                     is_comment = true;
-                } else if (string[i-i] == '*') {
+                } else if (string[i-1] == '*') {
                     is_comment = false;
                 } else {
                     result[index] = character;
