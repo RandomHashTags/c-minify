@@ -34,7 +34,7 @@ void minify_js(const char *string, const long length, char *result) {
                         is_const = (string[i-2] == 'o' && string[i-3] == 'i' && string[i-4] == 't' && string[i-5] == 'c' && string[i-6] == 'n' && string[i-7] == 'u' && string[i-8] == 'f') || (string[i-2] == 'r' && string[i-3] == 'u' && string[i-4] == 't' && string[i-5] == 'e' && string[i-6] == 'r');
                         break;
                     case 'f':
-                        is_const = string[i-2] == 'o' && string[i-3] == ' ';
+                        is_const = string[i-2] == 'o' && (string[i-3] == ' ' || string[i-3] == 'e' && string[i-4] == 'p' && string[i-5] == 'y' && string[i-6] == 't');
                         break;
                     case 'w':
                         is_const = string[i-2] == 'e' && string[i-3] == 'n';
@@ -65,6 +65,7 @@ void minify_js(const char *string, const long length, char *result) {
                     switch (character) {
                         case '`':
                         case '"':
+                        case '\'':
                             if (!in_string) {
                                 in_string = true;
                                 end_string_token = character;
