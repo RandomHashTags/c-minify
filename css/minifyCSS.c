@@ -8,61 +8,43 @@
 #include <stdbool.h>
 
 void minify_css(const char *string, const long length, char *result) {
-    long index = 0;
-    bool looking_for_head = false, head = true, value = false, is_comment = false;
-    for (long i = 0; i < length; i++) {
-        const char character = string[i];
-        switch (character) {
+    long index = 0, i = 0;
+    while (string[i] == ' ' || string[i] == '\t' || string[i] == '\n' || string[i] == '\r') {
+        i += 1;
+    }
+    while (i < length) {
+        switch (string[i]) {
             case ' ':
             case '\t':
             case '\n':
-            case '\v':
-            case '\f':
-            case '\r':
-                if (!is_comment && (head && !looking_for_head && string[i-1] != ',' && string[i-1] != ':') && (i != length && (string[i+1] != '{' && string[i+1] != '(')) || value) {
-                    result[index] = character;
+            case '\r': {
+                const char previous = string[i-1];
+                const char next = string[i+1];
+                if ((previous >= 'a' && previous <= 'z' || previous >= 'A' && previous <= 'Z') && (next == '#' || next == '.' || (next >= '0' && next <= '9') || (next >= 'a' && next <= 'z' || next >= 'A' && next <= 'Z'))) {
+                    result[index] = string[i];
                     index += 1;
                 }
                 break;
-            case '/':
+            } case '/':
                 if (string[i+1] == '*') {
-                    is_comment = true;
-                } else if (string[i-1] == '*') {
-                    is_comment = false;
+                    i += 2;
+                    for (long j = i; j < length; j++) {
+                        if (string[j] == '*' && string[j+1] == '/') {
+                            i = j+1;
+                            break;
+                        }
+                    }
                 } else {
-                    result[index] = character;
+                    result[index] = string[i];
                     index += 1;
                 }
                 break;
             default:
-                if (!is_comment) {
-                    switch (character) {
-                        case '{':
-                            head = false;
-                            value = false;
-                            break;
-                        case '}':
-                            looking_for_head = true;
-                            break;
-                        case ':':
-                            if (!head) {
-                                value = true;
-                            }
-                            break;
-                        case ';':
-                            head = false;
-                            value = false;
-                            break;
-                        default:
-                            looking_for_head = false;
-                            head = true;
-                            break;
-                    }
-                    result[index] = character;
-                    index += 1;
-                }
+                result[index] = string[i];
+                index += 1;
                 break;
         }
+        i += 1;
     }
     result[index] = '\0';
 }
